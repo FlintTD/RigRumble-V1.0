@@ -1,0 +1,6 @@
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\bin\Debug\RigRumbleV1.0.exe.config
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\bin\Debug\RigRumbleV1.0.exe
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\bin\Debug\RigRumbleV1.0.pdb
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\obj\Debug\RigRumble-V1.0.csprojResolveAssemblyReference.cache
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\obj\Debug\RigRumbleV1.0.exe
+F:\Code\GitHub\RigRumble-V1.0\RigRumbleV1.0\obj\Debug\RigRumbleV1.0.pdb
