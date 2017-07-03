@@ -12,3 +12,5 @@ Menu Commands are as follows:
 "load": Loads a savegame.
 "new": Starts a new game.
 "quit": Exits the whole game.
+"save": Saves the current game.
+"save as [name]": Saves the current game as [name].

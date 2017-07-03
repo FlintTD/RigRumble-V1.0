@@ -7,10 +7,110 @@ using System.Threading.Tasks;
 
 namespace RigRumble
 {
+    public class GameInstance
+    {
+        private string saveName;
+
+        public string getGameName()
+        {
+            return saveName;
+        }
+
+        public void setGameName(string name)
+        {
+            name = saveName;
+        }
+
+        public GameInstance() { }
+
+        public GameInstance(string name)
+        {
+            saveName = name;
+        }
+    }
+
     class Game
     {
         public const string versionString = "Rig Rumble Version 1.0";
 
+        public static List<String> parseUserInput()
+        {
+            List<String> ret = new List<String> { };
+            String buffer = Console.ReadLine();
+            while (buffer.Contains(" "))
+            {
+                var temp = buffer.Split(' ');
+                ret.Add(temp[0]);
+                buffer = temp[1];
+            }
+            ret.Add(buffer);
+            return ret;
+        }
+
+        // Reads a save game file in, produces a GameInstance object
+        private static Boolean Load(string file, GameInstance game)
+        {
+            try
+            {
+                string[] tempGameInfo = System.IO.File.ReadAllLines(@file);
+                try
+                {
+                    game = new GameInstance(tempGameInfo[0]);
+                    return true;
+                }
+                catch
+                {
+                    Console.WriteLine(tempGameInfo[0] + " failed to be read!");
+                    return false;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("That save file cannot be found.");
+                return false;
+            }
+
+        }
+
+        private static Boolean Save(GameInstance game)
+        {
+            String name = game.getGameName();
+            try
+            {
+                string[] lines = { name,
+                                "Second line",
+                                "Third line" };
+                System.IO.File.WriteAllLines(@"Saves\\" + name + ".txt", lines);
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine(name + " failed to be saved!");
+                return false;
+            }
+        }
+
+        private static Boolean Save(GameInstance game, String gameName)
+        {
+            try
+            {
+                string[] lines = { "gameName",
+                                "Second line",
+                                "Third line" };
+                System.IO.File.WriteAllLines(@"Saves\\" + gameName + ".txt", lines);
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine(game.getGameName() + " failed to be saved as " + gameName + "!");
+                return false;
+            }
+        }
+
+
+        // -------- -------- -------- -------- -------- -------- --------
+
+        
         static void Main(string[] args)
         {
             // Set up game environment
@@ -110,18 +210,21 @@ namespace RigRumble
                         break;
 
                     case "save":
-                        if (command.Count >= 3 & command[1] == "as")
+                        if (command.Count >= 3)
                         {
-                            Console.WriteLine("Would you like to save your game as: " + command[2]);
-                            List<String> i = parseUserInput();
-                            if (i[0] == "y" || i[0] == "Y" || i[0] == "yes" || i[0] == "Yes")
+                            if (command[1] == "as")
                             {
-                                Save(game, command[2]);
+                                Console.WriteLine("Would you like to save your game as: " + command[2] + "?");
+                                List<String> i = parseUserInput();
+                                if (i[0] == "y" || i[0] == "Y" || i[0] == "yes" || i[0] == "Yes")
+                                {
+                                    Save(game, command[2]);
+                                }
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Would you like to save your game: " + game.getGameName());
+                            Console.WriteLine("Would you like to save your game: " + game.getGameName() + "?");
                             List<String> i = parseUserInput();
                             if (i[0] == "y" || i[0] == "Y" || i[0] == "yes" || i[0] == "Yes")
                             {
@@ -135,102 +238,6 @@ namespace RigRumble
                         break;
                 }
             }
-        }
-
-        public static List<String> parseUserInput()
-        {
-            List<String> ret = new List<String> { };
-            String buffer = Console.ReadLine();
-            while (buffer.Contains(" "))
-            {
-                var temp = buffer.Split(' ');
-                ret.Add(temp[0]);
-                buffer = temp[1];
-            }
-            ret.Add(buffer);
-            return ret;
-        }
-
-        // Reads a save game file in, produces a GameInstance object
-        private static Boolean Load(string file, GameInstance game)
-        {
-            try
-            {
-                string[] tempGameInfo = System.IO.File.ReadAllLines(@file);
-                try
-                {
-                    game = new GameInstance(tempGameInfo[0]);
-                    return true;
-                }
-                catch
-                {
-                    Console.WriteLine(tempGameInfo[0] + " failed to be read!");
-                    return false;
-                }
-            }
-            catch
-            {
-                Console.WriteLine("That save file cannot be found.");
-                return false;
-            }
-            
-        }
-
-        private static Boolean Save(GameInstance game)
-        {
-            String name = game.getGameName();
-            try
-            {
-                string[] lines = { name,
-                                "Second line",
-                                "Third line" };
-                System.IO.File.WriteAllLines(@"Saves\\" + name + ".txt", lines);
-                return true;
-            }
-            catch
-            {
-                Console.WriteLine(name + " failed to be saved!");
-                return false;
-            }
-        }
-
-        private static Boolean Save(GameInstance game, String gameName)
-        {
-            try
-            {
-                string[] lines = { "gameName",
-                                "Second line",
-                                "Third line" };
-                System.IO.File.WriteAllLines(@"Saves\\" + gameName + ".txt", lines);
-                return true;
-            }
-            catch
-            {
-                Console.WriteLine(game.getGameName() + " failed to be saved as " + gameName + "!");
-                return false;
-            }
-        }
-    }
-
-    public class GameInstance
-    {
-        private string saveName;
-
-        public string getGameName()
-        {
-            return saveName;
-        }
-
-        public void setGameName(string name)
-        {
-            name = saveName;
-        }
-
-        public GameInstance() {}
-
-        public GameInstance(string name)
-        {
-            saveName = name;
         }
     }
 }
