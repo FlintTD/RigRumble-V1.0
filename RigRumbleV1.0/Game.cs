@@ -10,6 +10,8 @@ namespace RigRumble
     public class GameInstance
     {
         private string saveName;
+        private Rig playerRig;
+        private List<short> inGameTime = new List<short>() {1, 1, 2800};
 
         public string getGameName()
         {
@@ -21,17 +23,23 @@ namespace RigRumble
             name = saveName;
         }
 
-        public GameInstance() { }
+        public GameInstance()
+        {
+            saveName = "";
+            playerRig = new Rig();
+        }
 
         public GameInstance(string name)
         {
             saveName = name;
+            playerRig = new Rig();
         }
     }
 
     class Game
     {
         public const string versionString = "Rig Rumble Version 1.0";
+        public const short hoursToIncrement = 1;
 
         public static List<String> parseUserInput()
         {
