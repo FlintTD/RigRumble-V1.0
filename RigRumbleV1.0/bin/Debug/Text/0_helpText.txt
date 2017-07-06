@@ -1,0 +1,17 @@
+Rig Rumble is a text-based game.
+To control the game, you type what you want to do into the console, and the game responds in kind.
+Don't worry, the game is turn based, you wont be penalized for mistyping!
+Commands follow this format: [do action] [to object] [with object] [this much or this many times]
+Generally, commands are always typed in lower case.
+
+Menu Commands are as follows:
+"back": Exits from the current menu and ascends one menu level.
+"delete": Deletes an old savegame.
+"exit": Doubles as either 'back' or 'quit' based on context.
+"guide": See the in-game, in-universe game-playing guide.
+"help": Shows you this help text.
+"load": Loads a savegame.
+"new": Starts a new game.
+"quit": Exits the whole game.
+"save": Saves the current game.
+"save as [name]": Saves the current game as [name].
