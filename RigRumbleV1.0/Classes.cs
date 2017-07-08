@@ -10,7 +10,7 @@ namespace RigRumble
     public class Rig
     {
         public Engine rigEngine;
-        public string rigName;
+        public string rigName = "Mobile Derreck 231";
         public int rigWeight;
         public short rigDecks;
         public short rigEngineDecks;

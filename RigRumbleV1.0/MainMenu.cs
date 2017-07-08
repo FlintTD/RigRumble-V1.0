@@ -55,11 +55,14 @@ namespace RigRumble
         private static Boolean Save(GameInstance game)
         {
             String name = game.getGameName();
+            List<int> date = game.getGameDate();
             try
             {
                 string[] lines = { name,
-                                "Second line",
-                                "Third line" };
+                                Convert.ToString(date[0]),
+                                Convert.ToString(date[1]),
+                                Convert.ToString(date[2]),
+                                Convert.ToString(date[3])};
                 System.IO.File.WriteAllLines(@"Saves\\" + name + ".txt", lines);
                 return true;
             }

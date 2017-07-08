@@ -11,7 +11,7 @@ namespace RigRumble
     {
         private string saveName;
         private Rig playerRig;
-        private List<short> inGameTime = new List<short>() { 1, 1, 2800 };
+        private List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
 
 
 
@@ -44,7 +44,7 @@ namespace RigRumble
             return ret;
         }
 
-
+        // -------- -------- -------- --------
 
         public void Play()
         {
@@ -116,6 +116,11 @@ namespace RigRumble
                         }
                         break;
 
+                    case "resources":
+                        Console.WriteLine("In your cabin, you check the resources monitor.  It reads:");
+                        renderResourceUI(playerRig);
+                        break;
+
                     default:
                         Console.WriteLine("Unknown command " + command);
                         break;
@@ -123,7 +128,65 @@ namespace RigRumble
             }
         }
 
+        // -------- -------- -------- --------
 
+        private void renderResourceUI(Rig rig)
+        {
+            int width = 60;
+            int height = 20;
+            int wRemaining;
+            for (int i = 0; i > height; i++)
+            {
+                // Top and bottom of the render
+                if (i == 0 || i == height - 1)
+                {
+                    for (int j = 0; j > width-1; j++)
+                    {
+                        Console.Write("/");
+                    }
+                    Console.WriteLine("/");
+                }
+                // 2nd line of the render
+                else if (i == 1)
+                {
+                    wRemaining = width - playerRig.rigName.Length - 2;
+                    int hour = inGameTime[0] / 100;
+                    String t = hour.ToString() + ":00  ";
+                    String d = inGameTime[1].ToString();
+                    String gap = " ";
+                    if (inGameTime[1] == 1)
+                    {
+                        d += "st";
+                    }
+                    else if (inGameTime[1] == 2)
+                    {
+                        d += "nd";
+                    }
+                    else if (inGameTime[1] == 3)
+                    {
+                        d += "rd";
+                    }
+                    else
+                    {
+                        d += "th";
+                    }
+                    d += " of " + inGameTime[2].ToString() + ", " + inGameTime[3].ToString() + " ";
+                    t += d;
+                    wRemaining -= t.Length + 1;
+                    while (wRemaining > 1)
+                    {
+                        gap += " ";
+                    }
+
+                    Console.Write("/");
+                    Console.Write(playerRig.rigName);
+                    Console.Write(gap);
+                    Console.Write(t);
+                    Console.WriteLine("/");
+                }
+                // Other lines of the render
+            }
+        }
 
         public string getGameName()
         {
@@ -132,7 +195,17 @@ namespace RigRumble
 
         public void setGameName(string name)
         {
-            name = saveName;
+            saveName = name;
+        }
+
+        public List<int> getGameDate()
+        {
+            return inGameTime;
+        }
+
+        public void setGameDate(List<int> date)
+        {
+            inGameTime = date;
         }
 
         public GameInstance()
@@ -141,9 +214,15 @@ namespace RigRumble
             playerRig = new Rig();
         }
 
-        public GameInstance(string name)
+        public GameInstance(String name)
         {
             saveName = name;
+            playerRig = new Rig();
+        }
+
+        public GameInstance(List<string> loadList)
+        {
+            saveName = loadList[0];
             playerRig = new Rig();
         }
     }
