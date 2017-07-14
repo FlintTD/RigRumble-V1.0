@@ -10,3 +10,4 @@ Menu Commands are as follows:
 "guide": See the in-game, in-universe game-playing guide.
 "help": Shows you this help text.
 "menu": Returns you to the main menu, which handles saving and loading.
+"resources": Brings up resource display.

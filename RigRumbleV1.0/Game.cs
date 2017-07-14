@@ -135,12 +135,12 @@ namespace RigRumble
             int width = 60;
             int height = 20;
             int wRemaining;
-            for (int i = 0; i > height; i++)
+            for (int i = 0; i < height; i++)
             {
                 // Top and bottom of the render
-                if (i == 0 || i == height - 1)
+                if (i == 0 || i == (height - 1))
                 {
-                    for (int j = 0; j > width-1; j++)
+                    for (int j = 0; j < (width - 1); j++)
                     {
                         Console.Write("/");
                     }
@@ -176,15 +176,31 @@ namespace RigRumble
                     while (wRemaining > 1)
                     {
                         gap += " ";
+                        wRemaining--;
                     }
 
-                    Console.Write("/");
+                    Console.Write("/ ");
                     Console.Write(playerRig.rigName);
                     Console.Write(gap);
                     Console.Write(t);
                     Console.WriteLine("/");
                 }
                 // Other lines of the render
+                else
+                {
+                    for (int j = 0; j < (width - 1); j++)
+                    {
+                        if (j == 0 || j == (width - 1))
+                        {
+                            Console.Write("/");
+                        }
+                        else
+                        {
+                            Console.Write(" ");
+                        }
+                    }
+                    Console.WriteLine("/");
+                }
             }
         }
 

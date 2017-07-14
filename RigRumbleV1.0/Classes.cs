@@ -12,9 +12,29 @@ namespace RigRumble
         public Engine rigEngine;
         public string rigName = "Mobile Derreck 231";
         public int rigWeight;
-        public short rigDecks;
-        public short rigEngineDecks;
-        public short rigPopulation;
+        public int rigDecks;
+        public int rigEngineDecks;
+        public int rigPopulation;
+
+        public int rigAmpHours;
+        public int rigCleanWater;
+        public int rigBlackWater;
+        public int rigRawFood;
+
+        public int rigOilCrude;
+        public int rigOilLPG;
+        public int rigOilGasoline;
+        public int rigOilKerosene;
+        public int rigOilDiesel;
+        public int rigOilHeavy;
+        public int rigCarbon;
+
+        public int rigIronOre;
+        public int rigIron;
+        public int rigSteel;
+        public int rigSpareParts;
+        public int rigStructuralParts;
+        public int rigScrapMetal;
 
         public Rig() { }
 
