@@ -130,6 +130,7 @@ namespace RigRumble
 
         // -------- -------- -------- --------
 
+        //TODO: depricate
         private void renderResourceUI(Rig rig)
         {
             int width = 60;
@@ -204,6 +205,33 @@ namespace RigRumble
             }
         }
 
+        // Renders a cluster of zero or more windows in a blank terminal space
+        private void renderWindows(List<CmdWindow> windows, Rig rig)
+        {
+            int terminalWidth = 120;
+            int terminalHeight = 30;
+            int windowCount = windows.Count;
+            List<string> masterRaster = new List<string>();
+            
+            // loop over all rows
+            for (int i = 0; i < terminalHeight; i++)
+            {
+                // loop over all columbs
+                for (int j = 0; j < terminalWidth; j++)
+                {
+                    // loop over all windows
+                    for (int w = 0; w < windowCount; w++)
+                    {
+                        if (windows[w].hasAdjustedValue(i, j))
+                        {
+                            // write value to master array
+                            masterRaster[i] = masterRaster[i] + windows[w].hasAdjustedValue(i, j);
+                        }
+                    }
+                }
+            }
+        }
+
         public string getGameName()
         {
             return saveName;
@@ -224,22 +252,115 @@ namespace RigRumble
             inGameTime = date;
         }
 
+
         public GameInstance()
         {
-            saveName = "";
-            playerRig = new Rig();
+            this.saveName = "";
+            this.playerRig = new Rig();
         }
 
         public GameInstance(String name)
         {
-            saveName = name;
-            playerRig = new Rig();
+            this.saveName = name;
+            this.playerRig = new Rig();
         }
 
         public GameInstance(List<string> loadList)
         {
-            saveName = loadList[0];
-            playerRig = new Rig();
+            this.saveName = loadList[0];
+            this.playerRig = new Rig();
+        }
+    }
+
+    // Windows are drawn starting at the top-left corner,
+    // a more positive coordinate is always closer to the bottom-right corner
+    public class CmdWindow
+    {
+        protected int width;
+        protected int height;
+        protected int x;
+        protected int y;
+        protected string title;
+
+        public Boolean hasAdjustedValue(int x, int y)
+        {
+            if ((x - this.x >= 0 && y - this.y >= 0) && (x <= this.x + width && y <= this.y + height))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public CmdWindow()
+        {
+
+        }
+
+        public CmdWindow(int w, int h, int x, int y, int l, string t)
+        {
+            this.width = w;
+            this.height = h;
+            this.x = x;
+            this.y = y;
+            this.title = t;
+        }
+    }
+
+    // A list of quantized objects
+    public class ManifestCmdWindow : CmdWindow
+    {
+        protected List<int> values;
+        protected int rows;
+        protected List<string> labels;
+
+        public string getAdjustedValue(int x, int y)
+        {
+            //TODO
+        }
+
+        public ManifestCmdWindow()
+        {
+
+        }
+
+        public ManifestCmdWindow(int w, int h, string t, List<int> v, List<string> l)
+        {
+            this.width = w;
+            this.height = h;
+            this.title = t;
+            this.values = v;
+            this.labels = l;
+            rows = labels.Count;
+        }
+    }
+
+    // A list of objects with multiple values
+    public class TableCmdWindow : CmdWindow
+    {
+        protected List<List<int>> table;
+        protected List<string> labels;
+        protected int columns;
+        protected int rows;
+
+        public string getAdjustedValue(int x, int y)
+        {
+            //TODO
+        }
+
+        public TableCmdWindow()
+        {
+
+        }
+
+        public TableCmdWindow(int w, int h, string t, List<List<int>> b, List<string> l)
+        {
+            this.width = w;
+            this.height = h;
+            this.title = t;
+            this.table = b;
+            this.labels = l;
+            columns = b.Count;
+            rows = labels.Count;
         }
     }
 }
