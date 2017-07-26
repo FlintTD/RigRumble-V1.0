@@ -219,15 +219,17 @@ namespace RigRumble
                 // loop over all columbs
                 for (int j = 0; j < terminalWidth; j++)
                 {
+                    string rasterBuffer = " ";
                     // loop over all windows
                     for (int w = 0; w < windowCount; w++)
                     {
                         if (windows[w].hasAdjustedValue(i, j))
                         {
                             // write value to master array
-                            masterRaster[i] = masterRaster[i] + windows[w].hasAdjustedValue(i, j);
+                            rasterBuffer = windows[w].getAdjustedValue(i, j);
                         }
                     }
+                    masterRaster[i] = masterRaster[i] + rasterBuffer;
                 }
             }
         }
@@ -252,6 +254,7 @@ namespace RigRumble
             inGameTime = date;
         }
 
+        // VVVV - Constructors - VVVV --------
 
         public GameInstance()
         {
@@ -291,6 +294,31 @@ namespace RigRumble
             else return false;
         }
 
+        public string getAdjustedValue(int x, int y)
+        {
+            if ((x - this.x >= 0 && y - this.y >= 0) && (x <= this.x + width && y <= this.y + height))
+            {
+                // Boarder
+                if (x == this.x || x == this.x + width || y == this.y || y == this.y + height)
+                {
+                    int halfTitle = (title.Length + 1) / 2;
+                    int halfWidth = (width + 1) / 2;
+                    int titleEdgeDistance = halfWidth - halfTitle;
+                    if (y == this.y && x - this.x > titleEdgeDistance && x - this.x - width < titleEdgeDistance)
+                    {
+                        return title[x - this.x - titleEdgeDistance].ToString();
+                    }
+                    else
+                    {
+                        return "/";
+                    }
+                }
+                // Interior
+                else return "/";
+            }
+            else return "";
+        }
+
         public CmdWindow()
         {
 
@@ -315,7 +343,41 @@ namespace RigRumble
 
         public string getAdjustedValue(int x, int y)
         {
-            //TODO
+            if ((x - this.x >= 0 && y - this.y >= 0) && (x <= this.x + width && y <= this.y + height))
+            {
+                int halfWidth = (width + 1) / 2;
+                // Boarder
+                if (x == this.x || x == this.x + width || y == this.y || y == this.y + height)
+                {
+                    int halfTitle = (title.Length + 1) / 2;
+                    int titleEdgeDistance = halfWidth - halfTitle;
+                    if (y == this.y && x - this.x > titleEdgeDistance && x - this.x - width < titleEdgeDistance)
+                    {
+                        return title[x - this.x - titleEdgeDistance].ToString();
+                    }
+                    else
+                    {
+                        return "/";
+                    }
+                }
+                // Interior
+                else
+                {
+                    // Written line
+                    if (y % 2 == 0)
+                    {
+                        //TODO
+                        return " ";
+                        //TODO
+                    }
+                    // Blank line
+                    else
+                    {
+                        return " ";
+                    }
+                }
+            }
+            else return "";
         }
 
         public ManifestCmdWindow()
