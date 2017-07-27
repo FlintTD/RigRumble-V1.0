@@ -337,6 +337,7 @@ namespace RigRumble
     // A list of quantized objects
     public class ManifestCmdWindow : CmdWindow
     {
+        protected string[][] mapping;
         protected List<int> values;
         protected int rows;
         protected List<string> labels;
@@ -387,12 +388,75 @@ namespace RigRumble
 
         public ManifestCmdWindow(int w, int h, string t, List<int> v, List<string> l)
         {
+            this.mapping = new string[w][];
+            for (int a = 0; a < h; a++)
+            {
+                mapping[a] = new string[h];
+            }
             this.width = w;
             this.height = h;
             this.title = t;
             this.values = v;
             this.labels = l;
             rows = labels.Count;
+
+            int titleEdgeDistance = ((this.width + 1) / 2) - ((this.title.Length + 1) / 2);
+            int currentLine = 0;
+
+            for (int y = 0; y < this.width; y++)
+            {
+                for (int x = 0; x < this.height; x++)
+                {
+                    // Exterior
+                    if (x == 0 || y == 0 || x == this.width - 1 || y == this.height - 1)
+                    {
+                        // Title
+                        if (y == 0 && x > titleEdgeDistance && x - this.width < titleEdgeDistance)
+                        {
+                            mapping[x][y] = title[x - this.title.Length].ToString();
+                        }
+                        // Boarder
+                        else
+                        {
+                            mapping[x][y] = "/";
+                        }
+                    }
+                    //Interior
+                    else
+                    {
+                        // Written line
+                        if (y % 2 == 0)
+                        {
+                            // Spacing for Visibility
+                            if (x == 1 || x == this.width - 2)
+                            {
+                                mapping[x][y] = " ";
+                            }
+                            // labels and values
+                            else
+                            {
+                                //labels
+                                if (x - 2 < labels[currentLine].Length)
+                                {
+                                    mapping[x][y] = labels[currentLine][x - 2].ToString();
+                                }
+                                // values
+                                else if (x > values[currentLine] / 10)
+                                {
+                                    //TODO
+                                    mapping[x][y] = " ";
+                                    //TODO
+                                }
+                            }
+                        }
+                        // Blank line
+                        else
+                        {
+                            mapping[x][y] = " ";
+                        }
+                    }
+                }
+            }
         }
     }
 
