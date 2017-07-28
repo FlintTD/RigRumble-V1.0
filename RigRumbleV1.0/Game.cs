@@ -118,7 +118,9 @@ namespace RigRumble
 
                     case "resources":
                         Console.WriteLine("In your cabin, you check the resources monitor.  It reads:");
-                        renderResourceUI(playerRig);
+                        //renderResourceUI(playerRig);
+                        ManifestCmdWindow rigManifest = new ManifestCmdWindow(xCoord, yCoord, width, height, title, values, labels);
+                        renderWindows(new List<CmdWindow> { rigManifest });
                         break;
 
                     default:
@@ -206,7 +208,7 @@ namespace RigRumble
         }
 
         // Renders a cluster of zero or more windows in a blank terminal space
-        private void renderWindows(List<CmdWindow> windows, Rig rig)
+        private void renderWindows(List<CmdWindow> windows)
         {
             int terminalWidth = 120;
             int terminalHeight = 30;
@@ -342,43 +344,16 @@ namespace RigRumble
         protected int rows;
         protected List<string> labels;
 
-        public string getAdjustedValue(int x, int y)
+        new public string getAdjustedValue(int x, int y)
         {
-            if ((x - this.x >= 0 && y - this.y >= 0) && (x <= this.x + width && y <= this.y + height))
+            if (x >= this.x && y >= this.y && x <= this.x + width && y <= this.y + height)
             {
-                int halfWidth = (width + 1) / 2;
-                // Boarder
-                if (x == this.x || x == this.x + width || y == this.y || y == this.y + height)
-                {
-                    int halfTitle = (title.Length + 1) / 2;
-                    int titleEdgeDistance = halfWidth - halfTitle;
-                    if (y == this.y && x - this.x > titleEdgeDistance && x - this.x - width < titleEdgeDistance)
-                    {
-                        return title[x - this.x - titleEdgeDistance].ToString();
-                    }
-                    else
-                    {
-                        return "/";
-                    }
-                }
-                // Interior
-                else
-                {
-                    // Written line
-                    if (y % 2 == 0)
-                    {
-                        //TODO
-                        return " ";
-                        //TODO
-                    }
-                    // Blank line
-                    else
-                    {
-                        return " ";
-                    }
-                }
+                return mapping[x - this.x][y - this.y];
             }
-            else return "";
+            else
+            {
+                return "";
+            }
         }
 
         public ManifestCmdWindow()
@@ -386,13 +361,15 @@ namespace RigRumble
 
         }
 
-        public ManifestCmdWindow(int w, int h, string t, List<int> v, List<string> l)
+        public ManifestCmdWindow(int xCoord, int yCoord, int w, int h, string t, List<int> v, List<string> l)
         {
             this.mapping = new string[w][];
             for (int a = 0; a < h; a++)
             {
                 mapping[a] = new string[h];
             }
+            this.x = xCoord;
+            this.y = yCoord;
             this.width = w;
             this.height = h;
             this.title = t;
@@ -405,6 +382,7 @@ namespace RigRumble
 
             for (int y = 0; y < this.width; y++)
             {
+                currentLine = y / 2;
                 for (int x = 0; x < this.height; x++)
                 {
                     // Exterior
@@ -443,9 +421,8 @@ namespace RigRumble
                                 // values
                                 else if (x > values[currentLine] / 10)
                                 {
-                                    //TODO
-                                    mapping[x][y] = " ";
-                                    //TODO
+                                    string vString = values[currentLine].ToString();
+                                    mapping[x][y] = vString[vString.Count() - (width - x)].ToString();
                                 }
                             }
                         }
