@@ -16,25 +16,44 @@ namespace RigRumble
         public int rigEngineDecks;
         public int rigPopulation;
 
-        public int rigAmpHours;
-        public int rigCleanWater;
-        public int rigBlackWater;
-        public int rigRawFood;
+        public int rigAmpHours = 0;
+        public int rigCleanWater = 0;
+        public int rigGreyWater = 0;
+        public int rigBlackWater = 0;
+        public int rigRawFood = 0;
 
-        public int rigOilCrude;
-        public int rigOilLPG;
-        public int rigOilGasoline;
-        public int rigOilKerosene;
-        public int rigOilDiesel;
-        public int rigOilHeavy;
-        public int rigCarbon;
+        public int rigOilCrude = 0;
+        public int rigOilLPG = 0;
+        public int rigOilGasoline = 0;
+        public int rigOilKerosene = 0;
+        public int rigOilDiesel = 0;
+        public int rigOilHeavy = 0;
+        public int rigCarbon = 0;
 
-        public int rigIronOre;
-        public int rigIron;
-        public int rigSteel;
-        public int rigSpareParts;
-        public int rigStructuralParts;
-        public int rigScrapMetal;
+        public int rigIronOre = 0;
+        public int rigIron = 0;
+        public int rigSteel = 0;
+        public int rigSpareParts = 0;
+        public int rigStructuralParts = 0;
+        public int rigScrapMetal = 0;
+
+
+
+        public List<int> getManifestValues()
+        {
+            return new List<int> {rigAmpHours, rigCleanWater, rigGreyWater, rigBlackWater, rigRawFood,
+                                rigOilCrude, rigOilLPG, rigOilGasoline, rigOilKerosene, rigOilDiesel,
+                                rigOilHeavy, rigCarbon, rigIronOre, rigIron, rigSteel, rigSpareParts,
+                                rigStructuralParts, rigScrapMetal};
+        }
+
+        public List<string> getManifestLabels()
+        {
+            return new List<string> {"Amp Hours", "Clean Water : L", "Grey Water : L", "Black Water : L",
+                                "Raw Food : Kg", "Crude Oil : L", "LPG : L", "Gasoline : L", "Kerosene : L",
+                                "Diesel : L", "Heavy Oil : L", "Carbon : Kg", "Iron Ore : Kg", "Steel : Kg",
+                                "Spare Parts : Kg", "Structural Parts : Kg", "Scrap Metal : Kg"};
+        }
 
         public Rig() { }
 

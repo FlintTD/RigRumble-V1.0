@@ -119,7 +119,9 @@ namespace RigRumble
                     case "resources":
                         Console.WriteLine("In your cabin, you check the resources monitor.  It reads:");
                         //renderResourceUI(playerRig);
-                        ManifestCmdWindow rigManifest = new ManifestCmdWindow(xCoord, yCoord, width, height, title, values, labels);
+                        ManifestCmdWindow rigManifest = new ManifestCmdWindow(
+                                        2, 2, 40, 40, "Manifest", playerRig.getManifestValues(), playerRig.getManifestLabels()
+                                        );
                         renderWindows(new List<CmdWindow> { rigManifest });
                         break;
 
@@ -211,28 +213,32 @@ namespace RigRumble
         private void renderWindows(List<CmdWindow> windows)
         {
             int terminalWidth = 120;
-            int terminalHeight = 30;
+            int terminalHeight = 50;
             int windowCount = windows.Count;
             List<string> masterRaster = new List<string>();
-            
+
             // loop over all rows
             for (int i = 0; i < terminalHeight; i++)
             {
-                // loop over all columbs
+                masterRaster.Add("");
+                // loop over all columns
                 for (int j = 0; j < terminalWidth; j++)
                 {
                     string rasterBuffer = " ";
                     // loop over all windows
                     for (int w = 0; w < windowCount; w++)
                     {
-                        if (windows[w].hasAdjustedValue(i, j))
+                        // inverted positional variables to print row by row, instead of column by column
+                        if (windows[w].hasAdjustedValue(j, i))
                         {
                             // write value to master array
-                            rasterBuffer = windows[w].getAdjustedValue(i, j);
+                            rasterBuffer = windows[w].getAdjustedValue(j, i);
                         }
                     }
+                    // read into the master raster to be printed
                     masterRaster[i] = masterRaster[i] + rasterBuffer;
                 }
+                Console.WriteLine(masterRaster[i]);
             }
         }
 
@@ -281,6 +287,7 @@ namespace RigRumble
     // a more positive coordinate is always closer to the bottom-right corner
     public class CmdWindow
     {
+        protected string[][] mapping;
         protected int width;
         protected int height;
         protected int x;
@@ -296,29 +303,16 @@ namespace RigRumble
             else return false;
         }
 
-        public string getAdjustedValue(int x, int y)
+        public string getAdjustedValue(int xVal, int yVal)
         {
-            if ((x - this.x >= 0 && y - this.y >= 0) && (x <= this.x + width && y <= this.y + height))
+            if ((xVal - this.x >= 0 && yVal - this.y >= 0) && (xVal < this.x + width && yVal < this.y + height))
             {
-                // Boarder
-                if (x == this.x || x == this.x + width || y == this.y || y == this.y + height)
-                {
-                    int halfTitle = (title.Length + 1) / 2;
-                    int halfWidth = (width + 1) / 2;
-                    int titleEdgeDistance = halfWidth - halfTitle;
-                    if (y == this.y && x - this.x > titleEdgeDistance && x - this.x - width < titleEdgeDistance)
-                    {
-                        return title[x - this.x - titleEdgeDistance].ToString();
-                    }
-                    else
-                    {
-                        return "/";
-                    }
-                }
-                // Interior
-                else return "/";
+                return mapping[xVal - this.x][yVal - this.y];
             }
-            else return "";
+            else
+            {
+                return "";
+            }
         }
 
         public CmdWindow()
@@ -326,20 +320,51 @@ namespace RigRumble
 
         }
 
-        public CmdWindow(int w, int h, int x, int y, int l, string t)
+        public CmdWindow(int xCoord, int yCoord, int w, int h, string t)
         {
+            this.mapping = new string[w][];
+            for (int a = 0; a < h; a++)
+            {
+                mapping[a] = new string[h];
+            }
+            this.x = xCoord;
+            this.y = yCoord;
             this.width = w;
             this.height = h;
-            this.x = x;
-            this.y = y;
             this.title = t;
+
+            int titleEdgeDistance = ((this.width + 1) / 2) - ((this.title.Length + 1) / 2);
+            for (int y = 0; y < this.width; y++)
+            {
+                for (int x = 0; x < this.height; x++)
+                {
+                    // Exterior
+                    if (x == 0 || y == 0 || x == this.width - 1 || y == this.height - 1)
+                    {
+                        // Title
+                        if (y == 0 && x > titleEdgeDistance && x < this.width - titleEdgeDistance)
+                        {
+                            mapping[x][y] = title[x - titleEdgeDistance].ToString();
+                        }
+                        // Boarder
+                        else
+                        {
+                            mapping[x][y] = "/";
+                        }
+                    }
+                    //Interior
+                    else
+                    {
+                        mapping[x][y] = " ";
+                    }
+                }
+            }
         }
     }
 
     // A list of quantized objects
     public class ManifestCmdWindow : CmdWindow
     {
-        protected string[][] mapping;
         protected List<int> values;
         protected int rows;
         protected List<string> labels;
@@ -361,6 +386,7 @@ namespace RigRumble
 
         }
 
+        // positional x, positional y, width, height, window title, values, labels
         public ManifestCmdWindow(int xCoord, int yCoord, int w, int h, string t, List<int> v, List<string> l)
         {
             this.mapping = new string[w][];
@@ -380,18 +406,18 @@ namespace RigRumble
             int titleEdgeDistance = ((this.width + 1) / 2) - ((this.title.Length + 1) / 2);
             int currentLine = 0;
 
-            for (int y = 0; y < this.width; y++)
+            for (int x = 0; x < this.width; x++)
             {
-                currentLine = y / 2;
-                for (int x = 0; x < this.height; x++)
+                for (int y = 0; y < this.height; y++)
                 {
+                    currentLine = y / 2;
                     // Exterior
                     if (x == 0 || y == 0 || x == this.width - 1 || y == this.height - 1)
                     {
                         // Title
-                        if (y == 0 && x > titleEdgeDistance && x - this.width < titleEdgeDistance)
+                        if (y == 0 && x > titleEdgeDistance && x < this.width - titleEdgeDistance)
                         {
-                            mapping[x][y] = title[x - this.title.Length].ToString();
+                            mapping[x][y] = title[x - titleEdgeDistance].ToString();
                         }
                         // Boarder
                         else
@@ -411,19 +437,24 @@ namespace RigRumble
                                 mapping[x][y] = " ";
                             }
                             // labels and values
-                            else
+                            else if (currentLine < labels.Count)
                             {
                                 //labels
-                                if (x - 2 < labels[currentLine].Length)
+                                if (x >= 2 && x - 2 < labels[currentLine].Length)
                                 {
                                     mapping[x][y] = labels[currentLine][x - 2].ToString();
                                 }
                                 // values
-                                else if (x > values[currentLine] / 10)
+                                else if (x < width - 2 && x > width - 2 - values[currentLine].ToString().Count())
                                 {
                                     string vString = values[currentLine].ToString();
                                     mapping[x][y] = vString[vString.Count() - (width - x)].ToString();
                                 }
+                            }
+                            // all other space
+                            else
+                            {
+                                mapping[x][y] = " ";
                             }
                         }
                         // Blank line
@@ -445,8 +476,10 @@ namespace RigRumble
         protected int columns;
         protected int rows;
 
-        public string getAdjustedValue(int x, int y)
+        new public string getAdjustedValue(int x, int y)
         {
+            //TODO
+            return "";
             //TODO
         }
 
