@@ -120,7 +120,7 @@ namespace RigRumble
                         Console.WriteLine("In your cabin, you check the resources monitor.  It reads:");
                         //renderResourceUI(playerRig);
                         ManifestCmdWindow rigManifest = new ManifestCmdWindow(
-                                        2, 2, 40, 40, "Manifest", playerRig.getManifestValues(), playerRig.getManifestLabels()
+                                        2, 2, 40, "Manifest", playerRig.getManifestValues(), playerRig.getManifestLabels()
                                         );
                         renderWindows(new List<CmdWindow> { rigManifest });
                         break;
@@ -386,18 +386,19 @@ namespace RigRumble
 
         }
 
-        // positional x, positional y, width, height, window title, values, labels
-        public ManifestCmdWindow(int xCoord, int yCoord, int w, int h, string t, List<int> v, List<string> l)
+        // positional x, positional y, width, window title, values, labels
+        public ManifestCmdWindow(int xCoord, int yCoord, int w, string t, List<int> v, List<string> l)
         {
+            this.height = 3 + (2 * labels.Count);
             this.mapping = new string[w][];
-            for (int a = 0; a < h; a++)
+            for (int a = 0; a < height; a++)
             {
-                mapping[a] = new string[h];
+                mapping[a] = new string[height];
             }
             this.x = xCoord;
             this.y = yCoord;
             this.width = w;
-            this.height = h;
+            this.height = 3 + (2 * labels.Count);
             this.title = t;
             this.values = v;
             this.labels = l;

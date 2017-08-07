@@ -215,10 +215,13 @@ namespace RigRumble
                         Boolean repeat = true;
                         while (repeat)
                         {
+                            Console.WriteLine("  ------");
                             Console.WriteLine("What would you like your new game to be called?");
                             Console.WriteLine("Remember that a save name cannot contain spaces:");
                             List<String> newString = parseUserInput();
-                            if (newString[0] == "back") { }
+                            if (newString[0] == "back") {
+                                repeat = false;
+                            }
                             else if (newString[0] == "quit")
                             {
                                 exit = true;
