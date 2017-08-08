@@ -262,6 +262,8 @@ namespace RigRumble
             inGameTime = date;
         }
 
+
+
         // VVVV - Constructors - VVVV --------
 
         public GameInstance()
@@ -282,6 +284,8 @@ namespace RigRumble
             this.playerRig = new Rig();
         }
     }
+
+
 
     // Windows are drawn starting at the top-left corner,
     // a more positive coordinate is always closer to the bottom-right corner

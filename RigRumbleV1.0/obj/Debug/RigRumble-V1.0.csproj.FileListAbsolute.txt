@@ -10,3 +10,8 @@ C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\Ri
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\RigRumbleV1.0.exe
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\RigRumbleV1.0.pdb
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\obj\Debug\RigRumble-V1.0.csprojResolveAssemblyReference.cache
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\0_gameHelpText.txt
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\0_menuHelpText.txt
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideChapters.txt
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideText.txt
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideTextD2D.txt

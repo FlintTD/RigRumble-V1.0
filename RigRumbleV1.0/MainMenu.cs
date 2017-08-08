@@ -52,52 +52,81 @@ namespace RigRumble
 
         }
 
+        // Saves the currently-loaded game in progress, auto-fetches game name
         private static Boolean Save(GameInstance game)
         {
             String name = game.getGameName();
             List<int> date = game.getGameDate();
-            try
-            {
-                string[] lines = { name,
+            string[] lines = { name,
                                 Convert.ToString(date[0]),
                                 Convert.ToString(date[1]),
                                 Convert.ToString(date[2]),
                                 Convert.ToString(date[3])};
-                System.IO.File.WriteAllLines(@"Saves\\" + name + ".txt", lines);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.Write(e);
-                Console.WriteLine(name + " failed to be saved!");
-                return false;
-            }
-        }
-
-        private static Boolean Save(GameInstance game, String gameName)
-        {
             try
             {
-                string[] lines = { "gameName",
-                                "Second line",
-                                "Third line" };
-                System.IO.File.WriteAllLines(@"Saves\\" + gameName + ".txt", lines);
+                System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + name + ".txt", lines);
                 return true;
             }
             catch (Exception e)
             {
-                Console.Write(e);
-                Console.WriteLine(game.getGameName() + " failed to be saved as " + gameName + "!");
-                return false;
+                try
+                {
+                    System.IO.Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Saves"));
+                    System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + name + ".txt", lines);
+                    return true;
+                }
+                catch (Exception f)
+                {
+                    Console.Write(f);
+                    Console.WriteLine("");
+                    Console.WriteLine("-- AND --");
+                    Console.Write(e);
+                    Console.WriteLine("");
+                    Console.WriteLine(game.getGameName() + " failed to be saved as " + name + "!");
+                    return false;
+                }
             }
         }
 
+        // Saves the currently-loaded game in progress under an arbitrary name
+        private static Boolean Save(GameInstance game, String gameName)
+        {
+            string[] lines = { "gameName",
+                                "Second line",
+                                "Third line" };
+            try
+            {
+                System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + gameName + ".txt", lines);
+                return true;
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Saves"));
+                    System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + gameName + ".txt", lines);
+                    return true;
+                }
+                catch (Exception f)
+                {
+                    Console.Write(f);
+                    Console.WriteLine("");
+                    Console.WriteLine("-- AND --");
+                    Console.Write(e);
+                    Console.WriteLine("");
+                    Console.WriteLine(game.getGameName() + " failed to be saved as " + gameName + "!");
+                    return false;
+                }
+            }
+        }
+
+        // Wrapper for reading text files from the 'Text' folder
         private static String readInText(string gameTextFileName)
         {
             String ret;
             try
             {
-                ret = System.IO.File.ReadAllText(@"Text\\" + gameTextFileName + ".txt");
+                ret = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "Text\\" + gameTextFileName + ".txt");
             }
             catch (Exception e)
             {
@@ -185,7 +214,7 @@ namespace RigRumble
                     case "load":
                         if (command.Count > 1)
                         {
-                            if (Load("Saves\\" + command[1] + ".txt", game))
+                            if (Load(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + command[1] + ".txt", game))
                             {
                                 Console.WriteLine(command[1] + " loaded successfully!");
                                 gameIsLoaded = true;
@@ -201,12 +230,12 @@ namespace RigRumble
                         {
                             Console.WriteLine("Which saved game would you like to load?");
                             //Getting Text files
-                            FileInfo[] Saves = d.GetFiles("*.txt");
-                            foreach (FileInfo file in Saves)
+                            string directory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory + "Saves\\*.txt");
+                            foreach (var filePath in Directory.GetFiles(directory))
                             {
-                                Console.WriteLine(file.Name);
+                                Console.WriteLine(Path.GetFileName(filePath));
                             }
-                            Load("Saves\\" + parseUserInput()[0] + ".txt", game);
+                            Load(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + parseUserInput()[0] + ".txt", game);
                             gameIsLoaded = true;
                         }
                         break;
@@ -282,7 +311,13 @@ namespace RigRumble
                         break;
 
                     default:
-                        Console.WriteLine("Unknown command " + command);
+                        string ret = "'";
+                        for (int s = 0; s < command.Count; s++)
+                        {
+                            ret = ret + command[s] + " ";
+                        }
+                        ret = ret.TrimEnd(' ') + "'";
+                        Console.WriteLine("Unknown command " + ret);
                         break;
                 }
             }
