@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Media;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,7 @@ namespace RigRumble
         private string saveName;
         private Rig playerRig;
         private List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
-
-
+        SoundPlayer jukebox = new SoundPlayer();
 
         public static List<String> parseUserInput()
         {
@@ -44,13 +44,40 @@ namespace RigRumble
             return ret;
         }
 
+        // Wrapper for reading music from the 'BGM' folder
+        private static Boolean readInMusic(SoundPlayer s, string gameBGMFileName)
+        {
+            Boolean ret;
+            try
+            {
+                s.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "BGM\\" + gameBGMFileName + ".wav";
+                ret = true;
+            }
+            catch (Exception m)
+            {
+                ret = false;
+                Console.WriteLine("File " + gameBGMFileName + " is missing!");
+                Console.Write(m);
+                Console.WriteLine("");
+            }
+            return ret;
+        }
+
+
         // -------- -------- -------- --------
 
         public void Play()
         {
+            // Game initialization header
             List<String> command;
             Boolean exit = false;
-            
+            if (readInMusic(jukebox, "0_main"))
+            {
+                jukebox.Play();
+            }
+            // ---- ^^^^ ----
+
+            // Core loop
             while (!exit)
             {
                 Console.WriteLine("  ------");

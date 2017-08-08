@@ -12,6 +12,7 @@ namespace RigRumble
         public const string versionString = "Rig Rumble Version 1.0";
         public const short hoursToIncrement = 1;
 
+        // Handy function for reading in user input from the console
         public static List<String> parseUserInput()
         {
             List<String> ret = new List<String> { };
@@ -139,7 +140,7 @@ namespace RigRumble
 
         // -------- -------- -------- -------- -------- -------- --------
 
-        
+
         static void Main(string[] args)
         {
             // Set up game environment

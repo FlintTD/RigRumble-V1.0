@@ -69,6 +69,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BGM\" />
     <Folder Include="Saves\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
