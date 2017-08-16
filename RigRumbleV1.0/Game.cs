@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WMPLib;
 
 namespace RigRumble
 {
@@ -13,7 +14,7 @@ namespace RigRumble
         private string saveName;
         private Rig playerRig;
         private List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
-        SoundPlayer jukebox = new SoundPlayer();
+        WindowsMediaPlayer jukebox = new WindowsMediaPlayer();
 
         public static List<String> parseUserInput()
         {
@@ -45,12 +46,12 @@ namespace RigRumble
         }
 
         // Wrapper for reading music from the 'BGM' folder
-        private static Boolean readInMusic(SoundPlayer s, string gameBGMFileName)
+        private static Boolean readInMusic(WindowsMediaPlayer p, string gameBGMFileName)
         {
             Boolean ret;
             try
             {
-                s.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "BGM\\" + gameBGMFileName + ".wav";
+                p.URL = AppDomain.CurrentDomain.BaseDirectory + "BGM\\" + gameBGMFileName + ".wav";
                 ret = true;
             }
             catch (Exception m)
@@ -73,7 +74,7 @@ namespace RigRumble
             Boolean exit = false;
             if (readInMusic(jukebox, "0_main"))
             {
-                jukebox.Play();
+                jukebox.controls.play();
             }
             // ---- ^^^^ ----
 
