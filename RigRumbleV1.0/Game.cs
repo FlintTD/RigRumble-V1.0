@@ -11,11 +11,15 @@ namespace RigRumble
 {
     public class GameInstance
     {
-        private string saveName;
-        private Rig playerRig;
-        private List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
+        // Data variables
+            // All data variables below are public due to System.Xml.Serialization.XmlSerializer only reading public varaibles
+            // Please treat all variables as private; i.e. make get and set methods for sanity
+        public string saveName;
+        public Rig playerRig;
+        public List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
         WindowsMediaPlayer jukebox = new WindowsMediaPlayer();
 
+        // User Input Functions
         public static List<String> parseUserInput()
         {
             List<String> ret = new List<String> { };
@@ -296,7 +300,7 @@ namespace RigRumble
 
         public GameInstance()
         {
-            this.saveName = "";
+            this.saveName = "Default";
             this.playerRig = new Rig();
         }
 

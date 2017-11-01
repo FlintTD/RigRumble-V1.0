@@ -15,3 +15,5 @@ C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\Ri
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideChapters.txt
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideText.txt
 C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\bin\Debug\Text\1_guideTextD2D.txt
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\obj\Debug\Interop.WMPLib.dll
+C:\Users\ehardwic\Documents\Visual Studio 2015\Projects\RigRumble-V1.0-master\RigRumbleV1.0\obj\Debug\RigRumble-V1.0.csproj.ResolveComReference.cache

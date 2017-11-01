@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<GameInstance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <saveName>testgame</saveName>
+  <playerRig>
+    <rigName>Mobile Derreck 231</rigName>
+    <rigWeight>0</rigWeight>
+    <rigDecks>0</rigDecks>
+    <rigEngineDecks>0</rigEngineDecks>
+    <rigPopulation>0</rigPopulation>
+    <rigAmpHours>0</rigAmpHours>
+    <rigCleanWater>0</rigCleanWater>
+    <rigGreyWater>0</rigGreyWater>
+    <rigBlackWater>0</rigBlackWater>
+    <rigRawFood>0</rigRawFood>
+    <rigOilCrude>0</rigOilCrude>
+    <rigOilLPG>0</rigOilLPG>
+    <rigOilGasoline>0</rigOilGasoline>
+    <rigOilKerosene>0</rigOilKerosene>
+    <rigOilDiesel>0</rigOilDiesel>
+    <rigOilHeavy>0</rigOilHeavy>
+    <rigCarbon>0</rigCarbon>
+    <rigIronOre>0</rigIronOre>
+    <rigIron>0</rigIron>
+    <rigSteel>0</rigSteel>
+    <rigSpareParts>0</rigSpareParts>
+    <rigStructuralParts>0</rigStructuralParts>
+    <rigScrapMetal>0</rigScrapMetal>
+  </playerRig>
+  <inGameTime>
+    <int>0</int>
+    <int>1</int>
+    <int>1</int>
+    <int>3000</int>
+  </inGameTime>
+</GameInstance>

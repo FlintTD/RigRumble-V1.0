@@ -13,5 +13,5 @@ Menu Commands are as follows:
 "new": Starts a new game.
 "play": Enters the game you have currently loaded.
 "quit": Exits the whole game.
-"save": Saves the current game.
+"save": Quick-saves the current game.
 "save as [name]": Saves the current game as [name].
