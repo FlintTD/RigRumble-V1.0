@@ -292,7 +292,7 @@ namespace RigRumble
 
         public void setGameName(string name)
         {
-            saveName = name;
+            this.saveName = name;
         }
 
         public List<int> getGameDate()
@@ -302,7 +302,7 @@ namespace RigRumble
 
         public void setGameDate(List<int> date)
         {
-            inGameTime = date;
+            this.inGameTime = date;
         }
 
         // Parses all of the valid ways to say "yes" and returns a yes or no answer as a Boolean

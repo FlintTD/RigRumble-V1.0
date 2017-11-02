@@ -16,6 +16,7 @@ namespace RigRumble
         public static List<String> parseUserInput()
         {
             List<String> ret = new List<String> { };
+            String buffer = Console.ReadLine();
             String[] temp = buffer.Split();
             foreach (String word in temp)
             {
@@ -48,14 +49,6 @@ namespace RigRumble
         private static Boolean Save(GameInstance game)
         {
             String name = game.getGameName();
-            /*
-            List<int> date = game.getGameDate();
-            string[] lines = { name,
-                                Convert.ToString(date[0]),
-                                Convert.ToString(date[1]),
-                                Convert.ToString(date[2]),
-                                Convert.ToString(date[3])};
-            */
             try
             {
                 System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(GameInstance));
@@ -83,43 +76,6 @@ namespace RigRumble
                     Console.Write(e);
                     Console.WriteLine("");
                     Console.WriteLine(game.getGameName() + " failed to be saved!");
-                    return false;
-                }
-            }
-        }
-
-        // -DEPRICATED- Saves the currently-loaded game in progress under an arbitrary name
-        private static Boolean Save(GameInstance game, String gameName)
-        {
-            string[] lines = { "gameName",
-                                "Second line",
-                                "Third line" };
-            try
-            {
-                System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(GameInstance));
-                System.IO.FileStream file = System.IO.File.Create(AppDomain.CurrentDomain.BaseDirectory + "Saves" + "\\" + gameName + ".xml");
-                Console.WriteLine("Save writing to " + AppDomain.CurrentDomain.BaseDirectory + "Saves" + "\\" + gameName + ".xml");
-                writer.Serialize(file, game);
-                file.Close();
-                //System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + gameName + ".txt", lines);
-                return true;
-            }
-            catch (Exception e)
-            {
-                try
-                {
-                    //System.IO.Directory.CreateDirectory(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Saves"));
-                    //System.IO.File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "Saves\\" + gameName + ".txt", lines);
-                    return false;
-                }
-                catch (Exception f)
-                {
-                    Console.Write(f);
-                    Console.WriteLine("");
-                    Console.WriteLine("-- AND --");
-                    Console.Write(e);
-                    Console.WriteLine("");
-                    Console.WriteLine(game.getGameName() + " failed to be saved as " + gameName + "!");
                     return false;
                 }
             }
@@ -321,7 +277,7 @@ namespace RigRumble
                                 if (userInputIsYes(saveString[0]))
                                 {
                                     game.setGameName(command[2]);
-                                    success = Save(game, command[2]);
+                                    success = Save(game);
                                 }
                             }
                         }
