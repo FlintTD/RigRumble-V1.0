@@ -16,7 +16,7 @@ namespace RigRumble
             // Please treat all variables as private; i.e. make get and set methods for sanity
         public string saveName;
         public Rig playerRig;
-        public List<int> inGameTime = new List<int>() { 0000, 1, 1, 3000 };
+        public List<int> inGameTime;
         WindowsMediaPlayer jukebox = new WindowsMediaPlayer();
 
         // User Input Functions
@@ -80,6 +80,7 @@ namespace RigRumble
             {
                 jukebox.controls.play();
             }
+            Console.WriteLine("You are now playing " + saveName + "!");
             // ---- ^^^^ ----
 
             // Core loop
@@ -88,6 +89,7 @@ namespace RigRumble
                 Console.WriteLine("  ------");
                 // Parse user input
                 command = parseUserInput();
+                List<String> switchLevel1String;
                 switch (command[0])
                 {
                     case "back":
@@ -105,32 +107,32 @@ namespace RigRumble
 
                         while (closeGuide == false)
                         {
-                            List<String> guideString = parseUserInput();
+                            switchLevel1String = parseUserInput();
 
-                            if (guideString[0] == "back" || guideString[0] == "exit")
+                            if (switchLevel1String[0] == "back" || switchLevel1String[0] == "exit")
                             {
                                 closeGuide = true;
                             }
-                            else if (guideString[0] == "help")
+                            else if (switchLevel1String[0] == "help")
                             {
                                 Console.WriteLine("To close the guide, type 'back' or 'exit'.  To go to a chapter, type that chapter's number.  To access game help, close the guide and type 'help' again.");
                             }
-                            else if (guideString[0] == "1")
+                            else if (switchLevel1String[0] == "1")
                             {
                                 Console.WriteLine(readInText("1_guideTextD2D"));
                                 Console.WriteLine(readInText("1_guideChapters"));
                             }
-                            else if (guideString[0] == "2")
+                            else if (switchLevel1String[0] == "2")
                             {
 
                             }
-                            else if (guideString[0] == "3")
+                            else if (switchLevel1String[0] == "3")
                             {
 
                             }
                             else
                             {
-                                Console.WriteLine("Unknown command " + guideString);
+                                Console.WriteLine("Unknown command " + switchLevel1String);
                             }
                         }
                         break;
@@ -141,8 +143,17 @@ namespace RigRumble
 
                     case "menu":
                         Console.WriteLine("Are you sure you want to go back to the main menu?");
-                        List<String> quitString = parseUserInput();
-                        if (quitString[0] == "y" || quitString[0] == "Y" || quitString[0] == "yes" || quitString[0] == "Yes")
+                        switchLevel1String = parseUserInput();
+                        if (userInputIsYes(switchLevel1String[0]))
+                        {
+                            exit = true;
+                        }
+                        break;
+
+                    case "quit":
+                        Console.WriteLine("Are you sure you want to go back to the main menu?");
+                        switchLevel1String = parseUserInput();
+                        if (userInputIsYes(switchLevel1String[0]))
                         {
                             exit = true;
                         }
@@ -294,6 +305,19 @@ namespace RigRumble
             inGameTime = date;
         }
 
+        // Parses all of the valid ways to say "yes" and returns a yes or no answer as a Boolean
+        public static Boolean userInputIsYes(string input)
+        {
+            if (input == "y" || input == "Y" || input == "yes" || input == "Yes")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
 
         // VVVV - Constructors - VVVV --------
@@ -302,18 +326,21 @@ namespace RigRumble
         {
             this.saveName = "Default";
             this.playerRig = new Rig();
+            this.inGameTime = new List<int>() { 0000, 1, 1, 3000 };
         }
 
         public GameInstance(String name)
         {
             this.saveName = name;
             this.playerRig = new Rig();
+            this.inGameTime = new List<int>() { 0000, 1, 1, 3000 };
         }
 
         public GameInstance(List<string> loadList)
         {
             this.saveName = loadList[0];
             this.playerRig = new Rig();
+            this.inGameTime = new List<int>() { 0000, 1, 1, 3000 };
         }
     }
 

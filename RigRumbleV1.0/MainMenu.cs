@@ -16,14 +16,11 @@ namespace RigRumble
         public static List<String> parseUserInput()
         {
             List<String> ret = new List<String> { };
-            String buffer = Console.ReadLine();
-            while (buffer.Contains(" "))
+            String[] temp = buffer.Split();
+            foreach (String word in temp)
             {
-                var temp = buffer.Split(' ');
-                ret.Add(temp[0]);
-                buffer = temp[1];
+                ret.Add(word);
             }
-            ret.Add(buffer);
             return ret;
         }
 
@@ -42,7 +39,7 @@ namespace RigRumble
             }
             catch
             {
-                Console.WriteLine("That save file cannot be found, or could not br read.");
+                Console.WriteLine("That save file cannot be found, or could not be read.");
                 return false;
             }
         }
@@ -144,6 +141,18 @@ namespace RigRumble
             return ret;
         }
 
+        // Parses all of the valid ways to say "yes" and returns a yes or no answer as a Boolean
+        public static Boolean userInputIsYes(string input)
+        {
+            if (input == "y" || input == "Y" || input == "yes" || input == "Yes")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         // -------- -------- -------- -------- -------- -------- --------
 
@@ -153,7 +162,7 @@ namespace RigRumble
             // Set up game environment
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             DirectoryInfo d = new DirectoryInfo(@"\Saves");
-            GameInstance game = new GameInstance ();
+            GameInstance game = new GameInstance();
             Boolean gameIsLoaded = false;
             List<String> command;
             Boolean exit = false;
@@ -220,18 +229,20 @@ namespace RigRumble
                         break;
 
                     case "load":
-                        Console.WriteLine("Do not include file extentions when typing the save game name.");
                         if (command.Count > 1)
                         {
                             if (Load(command[1], game))
                             {
-                                Console.WriteLine(command[1] + " loaded successfully!");
+                                Console.WriteLine("Save file " + command[1] + " loaded successfully!");
+                                Console.WriteLine("Game " + game.getGameName() + " is now ready!");
                                 gameIsLoaded = true;
                                 break;
                             }
                             else
                             {
-                                Console.WriteLine(command[1] + " failed to load!");
+                                Console.WriteLine("Save file " + command[1] + " failed to load!");
+                                Console.WriteLine("Remember not to include file extentions when typing the save game name.");
+                                gameIsLoaded = false;
                                 break;
                             }
                         }
@@ -269,7 +280,7 @@ namespace RigRumble
                             {
                                 Console.WriteLine("Are you sure?");
                                 List<String> j = parseUserInput();
-                                if (j[0] == "y" || j[0] == "Y" || j[0] == "yes" || j[0] == "Yes")
+                                if (userInputIsYes(j[0]))
                                 {
                                     game = new GameInstance(newString[0]);
                                     repeat = false;
@@ -284,12 +295,16 @@ namespace RigRumble
                         {
                             game.Play();
                         }
+                        else
+                        {
+                            Console.WriteLine("No game is currently loaded!  Load a game save, or start a new game.");
+                        }
                         break;
 
                     case "quit":
                         Console.WriteLine("Are you sure you want to quit?");
                         List<String> quitString = parseUserInput();
-                        if (quitString[0] == "y" || quitString[0] == "Y" || quitString[0] == "yes" || quitString[0] == "Yes")
+                        if (userInputIsYes(quitString[0]))
                         {
                             exit = true;
                         }
@@ -303,10 +318,10 @@ namespace RigRumble
                             {
                                 Console.WriteLine("Would you like to save your game '" + game.getGameName() + "' as '" + command[2] + "'?");
                                 List<String> saveString = parseUserInput();
-                                if (saveString[0] == "y" || saveString[0] == "Y" || saveString[0] == "yes" || saveString[0] == "Yes")
+                                if (userInputIsYes(saveString[0]))
                                 {
                                     game.setGameName(command[2]);
-                                    success = Save(game);
+                                    success = Save(game, command[2]);
                                 }
                             }
                         }
@@ -314,7 +329,7 @@ namespace RigRumble
                         {
                             Console.WriteLine("Would you like to save your game: " + game.getGameName() + "?");
                             List<String> saveString = parseUserInput();
-                            if (saveString[0] == "y" || saveString[0] == "Y" || saveString[0] == "yes" || saveString[0] == "Yes")
+                            if (userInputIsYes(saveString[0]))
                             {
                                 success = Save(game);
                             }
