@@ -66,97 +66,142 @@ namespace RigRumble
         }
     }
 
-    public class Engine
+    public class Device
     {
-        private string engineName;
-        private float enginePower;
-        private float engineEfficiency;
-        private int engineWeight;
-        private int engineDurability;
-        private int engineValue;
-        private short engineSize;
+        protected string _name;
+        protected double _baseValue;
+        protected int _weight;
+        protected int _maxDurability;
+        protected int _currentDurability;
+        protected short _size;
+        protected bool _broken;
 
-        public string getEngineName()
+        public string Name
         {
-            return engineName;
+            get { return _name; }
         }
 
-        public float getEnginePower()
+        public double baseValue
         {
-            return enginePower;
+            get { return _baseValue; }
+            set { _baseValue = value; }
         }
 
-        public float getEngineEfficiency()
+        public double Value
         {
-            return engineEfficiency;
+            get { return this.baseValue * (_currentDurability / _maxDurability); }
         }
 
-        public int getEngineWeight()
+        public int Weight
         {
-            return engineWeight;
+            get { return _weight; }
         }
 
-        public int getEngineDurability()
+        public int MaxDurability
         {
-            return engineDurability;
+            get { return _maxDurability; }
+            set { _maxDurability = value; }
         }
 
-        public int getEngineValue()
+        public int CurrentDurability
         {
-            return engineValue;
+            get { return _currentDurability; }
         }
 
-        public short getEngineSize()
+        public short Size
         {
-            return engineSize;
+            get { return _size; }
         }
 
-        public void setEngineName(string name)
+        public bool Broken
         {
-            engineName = name;
+            get { return _broken; }
         }
 
-        public void setEnginePower(float power)
+        public void damage(int v)
         {
-            enginePower = power;
+            this._currentDurability -= v;
+            if (this._currentDurability <= 0)
+            {
+                this._broken = true;
+            }
         }
 
-        public void setEngineEfficiency(float efficiency)
+        public void repair(int v)
         {
-            engineEfficiency = efficiency;
+            this._currentDurability += v;
+            if (this._currentDurability > 0)
+            {
+                this._broken = false;
+            }
         }
 
-        public void setEngineWeight(int weight)
+        // Constructor
+        public Device(string n, double v, int w, int md, int cd, short s)
         {
-            engineWeight = weight;
+            this._name = n;
+            this._baseValue = v;
+            this._weight = w;
+            this._maxDurability = md;
+            this._currentDurability = cd;
+            this._size = s;
+            if (cd >= 0)
+            {
+                this._broken = false;
+            }
+            else
+            {
+                this._broken = true;
+            }
+        }
+    }
+
+    public class Engine : Device
+    {
+        private double _basePower;
+        private double _efficiency;
+
+        public double BasePower
+        {
+            get { return _basePower; }
         }
 
-        public void setEngineDurability(int durability)
+        public double Power
         {
-            engineDurability = durability;
+            get { return _basePower + Math.Ceiling(Math.Pow((_basePower * (_currentDurability / _maxDurability)), (double)1 / 3)) ; }
         }
 
-        public void setEngineValue(int value)
+        public double MaxPower
         {
-            engineValue = value;
+            get { return _basePower * 2; }
+            set { _basePower = value / 2; }
         }
 
-        public void setEngineSize(short size)
+        public double Efficiency
         {
-            engineSize = size;
+            get { return _efficiency; }
+            set { _efficiency = value; }
         }
-
-        public Engine() { }
-
-        public Engine(string name, float power, float efficiency, int weight, int durability, int value, short size)
+        
+        // Constructors
+        public Engine(double p, double e, string n, double v, int w, int md, int cd, short s) : base(n, v, w, md, cd, s)
         {
-            engineName = name;
-            enginePower = power;
-            engineEfficiency = efficiency;
-            engineWeight = weight;
-            engineDurability = durability;
-            engineValue = value;
-            engineSize = size;
+            this._basePower = p;
+            this._efficiency = e;
+            this._name = n;
+            this._baseValue = v;
+            this._weight = w;
+            this._maxDurability = md;
+            this._currentDurability = cd;
+            this._size = s;
+            if (cd >= 0)
+            {
+                this._broken = false;
+            }
+            else
+            {
+                this._broken = true;
+            }
         }
     }
 
