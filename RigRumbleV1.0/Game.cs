@@ -452,38 +452,37 @@ namespace RigRumble
         // positional x, positional y, width, window title, values, labels
         public ManifestCmdWindow(int xCoord, int yCoord, int w, string t, List<int> v, List<string> l)
         {
-            this.height = 3 + (2 * labels.Count);
-            this.mapping = new string[w][];
-            for (int a = 0; a < height; a++)
+            labels = l;
+            height = 3 + (2 * labels.Count);
+            width = w;
+            this.mapping = new string[width][];
+            this.x = xCoord;
+            this.y = yCoord;
+            title = t;
+            values = v;
+            rows = labels.Count;
+            for (int a = 0; a < width; a++)
             {
                 mapping[a] = new string[height];
             }
-            this.x = xCoord;
-            this.y = yCoord;
-            this.width = w;
-            this.height = 3 + (2 * labels.Count);
-            this.title = t;
-            this.values = v;
-            this.labels = l;
-            rows = labels.Count;
 
-            int titleEdgeDistance = ((this.width + 1) / 2) - ((this.title.Length + 1) / 2);
+            int titleEdgeDistance = ((width + 1) / 2) - ((title.Length + 1) / 2);
             int currentLine = 0;
 
-            for (int x = 0; x < this.width; x++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < this.height; y++)
+                for (int y = 0; y < height; y++)
                 {
                     currentLine = y / 2;
                     // Exterior
-                    if (x == 0 || y == 0 || x == this.width - 1 || y == this.height - 1)
+                    if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     {
                         // Title
-                        if (y == 0 && x > titleEdgeDistance && x < this.width - titleEdgeDistance)
+                        if (y == 0 && x > titleEdgeDistance && x < width - titleEdgeDistance)
                         {
                             mapping[x][y] = title[x - titleEdgeDistance].ToString();
                         }
-                        // Boarder
+                        // Border
                         else
                         {
                             mapping[x][y] = "/";
@@ -496,7 +495,7 @@ namespace RigRumble
                         if (y % 2 == 0)
                         {
                             // Spacing for Visibility
-                            if (x == 1 || x == this.width - 2)
+                            if (x == 1 || x == width - 2)
                             {
                                 mapping[x][y] = " ";
                             }

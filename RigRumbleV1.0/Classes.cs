@@ -55,7 +55,11 @@ namespace RigRumble
                                 "Spare Parts : Kg", "Structural Parts : Kg", "Scrap Metal : Kg"};
         }
 
-        public Rig() { }
+        // Consructors
+        public Rig()
+        {
+
+        }
 
         public Rig(string name, short engineDecks, short decks, short population)
         {
@@ -137,6 +141,17 @@ namespace RigRumble
         }
 
         // Constructor
+        public Device()
+        {
+            this._name = "Default";
+            this._baseValue = 0;
+            this._weight = 0;
+            this._maxDurability = 1;
+            this._currentDurability = 1;
+            this._size = 0;
+            this._broken = false;
+        }
+
         public Device(string n, double v, int w, int md, int cd, short s)
         {
             this._name = n;
@@ -184,6 +199,11 @@ namespace RigRumble
         }
         
         // Constructors
+        public Engine() : base ()
+        {
+            this._basePower = 0;
+            this._efficiency = 0;
+        }
         public Engine(double p, double e, string n, double v, int w, int md, int cd, short s) : base(n, v, w, md, cd, s)
         {
             this._basePower = p;
